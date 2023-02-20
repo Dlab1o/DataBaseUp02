@@ -1,0 +1,270 @@
+USE [DB_UP02]
+GO
+/****** Object:  Table [dbo].[Должность]    Script Date: 20.02.2023 13:53:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Должность](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Наименование] [nvarchar](150) NOT NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ЗаказМатериалов]    Script Date: 20.02.2023 13:53:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ЗаказМатериалов](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Оборудование] [nvarchar](500) NULL,
+	[Сумма] [decimal](18, 2) NULL,
+	[Количество] [int] NULL,
+	[ДатаПокупки] [datetime] NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Заказы]    Script Date: 20.02.2023 13:53:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Заказы](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Наименование] [nvarchar](50) NULL,
+	[Дата] [date] NOT NULL,
+	[Клиент] [int] NOT NULL,
+	[Статус] [int] NOT NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Клиенты]    Script Date: 20.02.2023 13:53:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Клиенты](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Фамилия] [nvarchar](150) NOT NULL,
+	[Имя] [nvarchar](150) NOT NULL,
+	[Отчество] [nvarchar](150) NOT NULL,
+	[ДатаРождения] [date] NULL,
+	[МестоРождения] [nvarchar](500) NULL,
+	[Серия] [nvarchar](4) NULL,
+	[Номер] [nvarchar](6) NULL,
+	[ДатаПолучения] [date] NULL,
+	[ДатаОкончанияСрока] [date] NULL,
+	[МестоПолучения] [nvarchar](255) NULL,
+	[Пол] [int] NOT NULL,
+	[Статус] [int] NULL,
+ CONSTRAINT [PK_Клиенты] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Оборудование]    Script Date: 20.02.2023 13:53:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Оборудование](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Маркировка] [nvarchar](max) NULL,
+	[Наименование] [nvarchar](max) NULL,
+	[Тип] [int] NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ОтчётОбОшибках]    Script Date: 20.02.2023 13:53:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ОтчётОбОшибках](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[ПричинаПоломки] [nvarchar](500) NULL,
+	[ВремяНачала] [datetime] NULL,
+	[ВремяОкончания] [datetime] NULL,
+	[Сотрудник] [int] NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Пол]    Script Date: 20.02.2023 13:53:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Пол](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Наименование] [nvarchar](12) NOT NULL,
+ CONSTRAINT [PK_Gender] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ПочинкаОборудования]    Script Date: 20.02.2023 13:53:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ПочинкаОборудования](
+	[ID] [int] NOT NULL,
+	[Name] [nvarchar](50) NULL,
+	[Technic] [int] NOT NULL,
+	[DeliveryDate] [date] NOT NULL,
+	[Date] [date] NOT NULL,
+	[Orders] [int] NOT NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Сотрудники]    Script Date: 20.02.2023 13:53:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Сотрудники](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Фамилия] [nvarchar](150) NOT NULL,
+	[Имя] [nvarchar](150) NOT NULL,
+	[Отчество] [nvarchar](150) NOT NULL,
+	[ДатаРождения] [date] NOT NULL,
+	[Должность] [int] NOT NULL,
+	[Фото] [nvarchar](500) NOT NULL,
+	[Логин] [nvarchar](500) NOT NULL,
+	[Пароль] [nvarchar](500) NOT NULL,
+ CONSTRAINT [PK_Сотрудники] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[СтатусЗаказа]    Script Date: 20.02.2023 13:53:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[СтатусЗаказа](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Наименование] [nvarchar](150) NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[СтатусКлиента]    Script Date: 20.02.2023 13:53:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[СтатусКлиента](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Наименование] [nvarchar](150) NOT NULL,
+ CONSTRAINT [PK_Тип] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[УчётРемонтныхРабот]    Script Date: 20.02.2023 13:53:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[УчётРемонтныхРабот](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Маркировка] [nvarchar](100) NULL,
+	[Название] [nvarchar](100) NULL,
+	[Тип] [nvarchar](100) NULL,
+ CONSTRAINT [PK_УчётРемонтныхРабот] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ХарактеристикиОборудования]    Script Date: 20.02.2023 13:53:16 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ХарактеристикиОборудования](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Оборудование] [int] NOT NULL,
+	[Характеристика] [int] NOT NULL
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Должность] ON 
+
+INSERT [dbo].[Должность] ([ID], [Наименование]) VALUES (1, N'Директор')
+INSERT [dbo].[Должность] ([ID], [Наименование]) VALUES (2, N'Сборщик')
+INSERT [dbo].[Должность] ([ID], [Наименование]) VALUES (3, N'Менеджер')
+INSERT [dbo].[Должность] ([ID], [Наименование]) VALUES (4, N'Администратор')
+SET IDENTITY_INSERT [dbo].[Должность] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ЗаказМатериалов] ON 
+
+INSERT [dbo].[ЗаказМатериалов] ([ID], [Оборудование], [Сумма], [Количество], [ДатаПокупки]) VALUES (1, N'Монитор', CAST(25000.00 AS Decimal(18, 2)), 10, CAST(N'2023-02-20T00:00:00.000' AS DateTime))
+INSERT [dbo].[ЗаказМатериалов] ([ID], [Оборудование], [Сумма], [Количество], [ДатаПокупки]) VALUES (2, N'Мышь Компьютерная', CAST(500.00 AS Decimal(18, 2)), 30, CAST(N'2023-02-20T00:00:00.000' AS DateTime))
+SET IDENTITY_INSERT [dbo].[ЗаказМатериалов] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Заказы] ON 
+
+INSERT [dbo].[Заказы] ([ID], [Наименование], [Дата], [Клиент], [Статус]) VALUES (1, N'Заказ Номер "FJGODWE567"', CAST(N'2000-12-12' AS Date), 2, 1)
+SET IDENTITY_INSERT [dbo].[Заказы] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Клиенты] ON 
+
+INSERT [dbo].[Клиенты] ([ID], [Фамилия], [Имя], [Отчество], [ДатаРождения], [МестоРождения], [Серия], [Номер], [ДатаПолучения], [ДатаОкончанияСрока], [МестоПолучения], [Пол], [Статус]) VALUES (1, N'Артас', N'Менетил', N'Личов', CAST(N'2026-12-03' AS Date), N'Азерот, г.Лордерон', N'4444', N'666666', CAST(N'2026-12-03' AS Date), CAST(N'2023-02-17' AS Date), N'г.Стратхольм', 1, 1)
+INSERT [dbo].[Клиенты] ([ID], [Фамилия], [Имя], [Отчество], [ДатаРождения], [МестоРождения], [Серия], [Номер], [ДатаПолучения], [ДатаОкончанияСрока], [МестоПолучения], [Пол], [Статус]) VALUES (5, N'Ривийский', N'Геральт', N'Гвинблейд', CAST(N'1999-12-23' AS Date), N'Севернные Королевства, Ривия', N'3348', N'578674', CAST(N'2012-06-01' AS Date), CAST(N'2026-03-23' AS Date), N'г.Новиград', 1, 2)
+SET IDENTITY_INSERT [dbo].[Клиенты] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Оборудование] ON 
+
+INSERT [dbo].[Оборудование] ([ID], [Маркировка], [Наименование], [Тип]) VALUES (1, N'Она есть', N'Материнка', 1)
+INSERT [dbo].[Оборудование] ([ID], [Маркировка], [Наименование], [Тип]) VALUES (2, N'Она есть', N'Видеокарта', 2)
+SET IDENTITY_INSERT [dbo].[Оборудование] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Пол] ON 
+
+INSERT [dbo].[Пол] ([ID], [Наименование]) VALUES (1, N'Мужской')
+INSERT [dbo].[Пол] ([ID], [Наименование]) VALUES (2, N'Женский')
+SET IDENTITY_INSERT [dbo].[Пол] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Сотрудники] ON 
+
+INSERT [dbo].[Сотрудники] ([ID], [Фамилия], [Имя], [Отчество], [ДатаРождения], [Должность], [Фото], [Логин], [Пароль]) VALUES (1, N'Семенов', N'Владимир', N'Филатович', CAST(N'2000-02-15' AS Date), 2, N'DefaultProfilePhoto.jpg', N'loginDEttt', N'1234')
+INSERT [dbo].[Сотрудники] ([ID], [Фамилия], [Имя], [Отчество], [ДатаРождения], [Должность], [Фото], [Логин], [Пароль]) VALUES (2, N'Абрамова', N'Оксана', N'Ростиславовна', CAST(N'2000-02-16' AS Date), 3, N'DefaultProfilePhoto.jpg', N'loginDExrn', N'1234')
+INSERT [dbo].[Сотрудники] ([ID], [Фамилия], [Имя], [Отчество], [ДатаРождения], [Должность], [Фото], [Логин], [Пароль]) VALUES (3, N'Косьвинцев', N'Алексей', N'Антонович', CAST(N'2000-02-17' AS Date), 1, N'DefaultProfilePhoto.jpg', N'loginDEwxd', N'1234')
+INSERT [dbo].[Сотрудники] ([ID], [Фамилия], [Имя], [Отчество], [ДатаРождения], [Должность], [Фото], [Логин], [Пароль]) VALUES (4, N'Синичкин', N'Бронислав', N'Тихонович', CAST(N'2000-02-18' AS Date), 2, N'DefaultProfilePhoto.jpg', N'loginDEmwq', N'1234')
+INSERT [dbo].[Сотрудники] ([ID], [Фамилия], [Имя], [Отчество], [ДатаРождения], [Должность], [Фото], [Логин], [Пароль]) VALUES (5, N'Голева', N'Нина', N'Мстиславовна', CAST(N'2000-02-19' AS Date), 3, N'DefaultProfilePhoto.jpg', N'loginDEykk', N'1234')
+INSERT [dbo].[Сотрудники] ([ID], [Фамилия], [Имя], [Отчество], [ДатаРождения], [Должность], [Фото], [Логин], [Пароль]) VALUES (6, N'Терентьев', N'Игорь', N'Александрович', CAST(N'2000-02-20' AS Date), 3, N'DefaultProfilePhoto.jpg', N'loginDEell', N'1234')
+INSERT [dbo].[Сотрудники] ([ID], [Фамилия], [Имя], [Отчество], [ДатаРождения], [Должность], [Фото], [Логин], [Пароль]) VALUES (7, N'Петрова', N'Иванна', N'Андреевна', CAST(N'2000-02-21' AS Date), 2, N'DefaultProfilePhoto.jpg', N'loginDEzqn', N'1234')
+INSERT [dbo].[Сотрудники] ([ID], [Фамилия], [Имя], [Отчество], [ДатаРождения], [Должность], [Фото], [Логин], [Пароль]) VALUES (8, N'Федосеев', N'Иван', N'Валентинович', CAST(N'2000-02-22' AS Date), 2, N'DefaultProfilePhoto.jpg', N'loginDEiyy', N'1234')
+INSERT [dbo].[Сотрудники] ([ID], [Фамилия], [Имя], [Отчество], [ДатаРождения], [Должность], [Фото], [Логин], [Пароль]) VALUES (9, N'Путин', N'Станислав', N'Протасьевич', CAST(N'2000-02-23' AS Date), 2, N'DefaultProfilePhoto.jpg', N'loginDEaul', N'1234')
+INSERT [dbo].[Сотрудники] ([ID], [Фамилия], [Имя], [Отчество], [ДатаРождения], [Должность], [Фото], [Логин], [Пароль]) VALUES (10, N'Долинина', N'Ольга', N'Аркадьевна', CAST(N'2000-02-24' AS Date), 2, N'DefaultProfilePhoto.jpg', N'loginDEyzp', N'1234')
+INSERT [dbo].[Сотрудники] ([ID], [Фамилия], [Имя], [Отчество], [ДатаРождения], [Должность], [Фото], [Логин], [Пароль]) VALUES (11, N'Сокольчик', N'Владислав', N'Антонинович', CAST(N'2000-02-25' AS Date), 3, N'DefaultProfilePhoto.jpg', N'loginDErwb', N'1234')
+INSERT [dbo].[Сотрудники] ([ID], [Фамилия], [Имя], [Отчество], [ДатаРождения], [Должность], [Фото], [Логин], [Пароль]) VALUES (12, N'Шубин', N'Тихон', N'Лаврентьевич', CAST(N'2000-02-26' AS Date), 2, N'DefaultProfilePhoto.jpg', N'loginDEpri', N'1234')
+INSERT [dbo].[Сотрудники] ([ID], [Фамилия], [Имя], [Отчество], [ДатаРождения], [Должность], [Фото], [Логин], [Пароль]) VALUES (13, N'Ермолаев', N'Эдуард', N'Протасьевич', CAST(N'2000-02-27' AS Date), 3, N'DefaultProfilePhoto.jpg', N'loginDEzpr', N'1234')
+INSERT [dbo].[Сотрудники] ([ID], [Фамилия], [Имя], [Отчество], [ДатаРождения], [Должность], [Фото], [Логин], [Пароль]) VALUES (14, N'Мечников', N'Борис', N'Лукьевич', CAST(N'2000-02-28' AS Date), 2, N'DefaultProfilePhoto.jpg', N'loginDEhfv', N'1234')
+INSERT [dbo].[Сотрудники] ([ID], [Фамилия], [Имя], [Отчество], [ДатаРождения], [Должность], [Фото], [Логин], [Пароль]) VALUES (17, N'Ведерников', N'Тимофей', N'Денисович', CAST(N'2002-03-12' AS Date), 4, N'rrrr.png', N'admin', N'1234')
+SET IDENTITY_INSERT [dbo].[Сотрудники] OFF
+GO
+SET IDENTITY_INSERT [dbo].[СтатусКлиента] ON 
+
+INSERT [dbo].[СтатусКлиента] ([ID], [Наименование]) VALUES (1, N'Обычный')
+INSERT [dbo].[СтатусКлиента] ([ID], [Наименование]) VALUES (2, N'Постоянный')
+SET IDENTITY_INSERT [dbo].[СтатусКлиента] OFF
+GO
+SET IDENTITY_INSERT [dbo].[УчётРемонтныхРабот] ON 
+
+INSERT [dbo].[УчётРемонтныхРабот] ([ID], [Маркировка], [Название], [Тип]) VALUES (1, N'Xenox', N'Материнская Плата ASUS ROG GAME', N'Коплектующие')
+INSERT [dbo].[УчётРемонтныхРабот] ([ID], [Маркировка], [Название], [Тип]) VALUES (2, N'MSI', N'Видеокарта NVIDIA GeForce RTX 3050', N'Коплектующие')
+INSERT [dbo].[УчётРемонтныхРабот] ([ID], [Маркировка], [Название], [Тип]) VALUES (3, N'MSI', N'Видеокарта MSI NVIDIA GeForce RTX 3060', N'Коплектующие')
+SET IDENTITY_INSERT [dbo].[УчётРемонтныхРабот] OFF
+GO
+ALTER TABLE [dbo].[Заказы] ADD  CONSTRAINT [DF_Orders_OrderName]  DEFAULT (N'Заказ: '+CONVERT([char](20),getdate(),(120))) FOR [Наименование]
+GO
+ALTER TABLE [dbo].[Заказы] ADD  CONSTRAINT [DF_Orders_OrderDate]  DEFAULT (getdate()) FOR [Дата]
+GO
+ALTER TABLE [dbo].[Заказы] ADD  CONSTRAINT [DF_Orders_OrderStatus]  DEFAULT ((1)) FOR [Статус]
+GO
+ALTER TABLE [dbo].[ПочинкаОборудования] ADD  CONSTRAINT [DF_RepairTechnic_Name]  DEFAULT (N'Заказ: '+CONVERT([char](20),getdate(),(120))) FOR [Name]
+GO
+ALTER TABLE [dbo].[СтатусКлиента]  WITH CHECK ADD  CONSTRAINT [FK_Тип_Тип] FOREIGN KEY([ID])
+REFERENCES [dbo].[СтатусКлиента] ([ID])
+GO
+ALTER TABLE [dbo].[СтатусКлиента] CHECK CONSTRAINT [FK_Тип_Тип]
+GO
